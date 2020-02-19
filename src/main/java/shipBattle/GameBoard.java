@@ -71,10 +71,40 @@ public class GameBoard {
 	}
 
 	public void saveTheLocationOnBoard(List<Coordinate> location, Ship ship) {
-		for(Coordinate coord : location) {
+		for (Coordinate coord : location) {
 			squares[coord.y][coord.x].setShip(ship);
 		}
-		
+
+	}
+
+	
+	public char[][] constractTheViewOfBoard(boolean gameHasStarted) {
+		char[][] board = new char[10][10];
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				board[i][i] = getTheRightChar(gameHasStarted, i, j);
+			}
+		}
+		return board;
+	}
+
+	//If game has started we show (from the enemies board) only the squares that have been shot at.
+	//If we are entering the ships we show (from our own board) all the squares.
+	private char getTheRightChar(boolean gameHasStarted, int i, int j) {
+		if (gameHasStarted) {
+			if (squares[i][j].isShot()) {
+				return getChar(i, j);
+			}
+			return ' ';
+		}
+		return getChar(i, j);
+	}
+
+	private char getChar(int i, int j) {
+		if (squares[i][j].getShip() == null) {
+			return '-';
+		} 
+		return 'X';
 	}
 
 }

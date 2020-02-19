@@ -67,7 +67,7 @@ public class GamePreparer {
 
 	private Player createComputerPlayer() {
 		Player player = new ComputerPlayer();
-		ShipMaker shipMaker = new ShipMakerForComputerPlayer(UI);
+		ShipMaker shipMaker = new ShipMakerForComputerPlayer();
 		prepareGameBoard(player, shipMaker);
 		return player;
 	}
