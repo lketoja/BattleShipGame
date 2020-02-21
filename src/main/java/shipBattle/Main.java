@@ -14,5 +14,4 @@ public class Main {
 		GameLogic logic = new GameLogic(game.state, game.player1, game.player2);
 		logic.startGame();
 	}
-
 }

@@ -77,12 +77,11 @@ public class GameBoard {
 
 	}
 
-	
-	public char[][] constractTheViewOfBoard(boolean gameHasStarted) {
+	public char[][] buildTheViewOfBoard(boolean gameHasStarted) {
 		char[][] board = new char[10][10];
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				board[i][i] = getTheRightChar(gameHasStarted, i, j);
+				board[i][j] = getTheRightChar(gameHasStarted, i, j);
 			}
 		}
 		return board;
@@ -105,6 +104,17 @@ public class GameBoard {
 			return '-';
 		} 
 		return 'X';
+	}
+	
+	public void printGameBoard(char[][] board) {
+		System.out.println("  A B C D E F G H I J");
+		for (int i = 0; i < 10; i++) {
+			System.out.print(i);
+			for (int j = 0; j < 10; j++) {
+				System.out.print(" " + board[i][j]);
+			}
+			System.out.println("");
+		}
 	}
 
 }
