@@ -63,27 +63,24 @@ public class GamePreparer {
 		player1 = createHumanPlayer();
 		if (UI.userWantsToPlayWithAFriend())
 			player2 = createHumanPlayer();
-		player2 = new ComputerPlayer();			
+		player2 = new ComputerPlayer(UI);			
 	}
 
 	private Player createHumanPlayer() {
-		Player player = new HumanPlayer();
+		Player player = new HumanPlayer(UI);
 		player.setName(UI.askForPlayersName());
 		return player;
 	}
 	
 	private void enterShipsToTheGameBoard() {
 		ShipMaker shipMaker = new ShipMakerForHumanPlayer(UI);
-		prepareGameBoard(player1, shipMaker);
+		GameBoard player1Ships = shipMaker.prepareShips();
 		if(player2 instanceof ComputerPlayer)
 			shipMaker = new ShipMakerForComputerPlayer();
-		prepareGameBoard(player2, shipMaker);	
+		GameBoard player2Ships = shipMaker.prepareShips();
+		player1.setGameBoard(player2Ships);
+		player2.setGameBoard(player1Ships);
 	}
 	
-	private void prepareGameBoard(Player player, ShipMaker shipMaker) {
-		GameBoard gameBoard = shipMaker.prepareShips();
-		player.setGameBoard(gameBoard);
-	}
-
-
+	
 }

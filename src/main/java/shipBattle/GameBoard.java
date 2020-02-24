@@ -71,10 +71,23 @@ public class GameBoard {
 	}
 
 	public void saveTheLocationOnBoard(List<Coordinate> location, Ship ship) {
+		letTheSquaresKnowThatThereIsAShip(location, ship);
+		letTheShipKnowWhereItIs(location, ship);
+	}
+	
+	private void letTheShipKnowWhereItIs(List<Coordinate> location, Ship ship) {
+		List<Square> locationInSquares = new ArrayList<>();
+		for(Coordinate coordinate : location) {
+			Square square = fromCoordinateToSquare(coordinate);
+			locationInSquares.add(square);
+		}
+		ship.setLocation(locationInSquares);
+	}
+
+	private void letTheSquaresKnowThatThereIsAShip(List<Coordinate> location, Ship ship) {
 		for (Coordinate coord : location) {
 			squares[coord.y][coord.x].setShip(ship);
 		}
-
 	}
 
 	public char[][] buildTheViewOfBoard(boolean gameHasStarted) {
@@ -115,6 +128,49 @@ public class GameBoard {
 			}
 			System.out.println("");
 		}
+	}
+	
+	public void markThatSquareWasHit(Coordinate coordinate) {
+		Square hitLocation = fromCoordinateToSquare(coordinate);
+		hitLocation.setShot(true);
+	}
+
+	public boolean isThereAShipIn(Coordinate coordinate) {
+		Square hitLocation = fromCoordinateToSquare(coordinate);
+		if(hitLocation.getShip() == null)
+			return false;
+		return true;
+	}
+	
+	public boolean didTheShipSink(Coordinate coordinate) {
+		Ship ship = fromCoordinateToShip(coordinate);
+		for(Square square : ship.getLocation()) {
+			if(!square.isShot())
+				return false;
+		}
+		return true;
+	}
+
+	public boolean areAllTheShipsSunken() {
+		for(Ship ship : ships) {
+			if(!ship.sunken)
+				return false;
+		}
+		return true;
+	}
+
+	public void markSunkenShip(Coordinate coordinate) {
+		Ship ship = fromCoordinateToShip(coordinate);
+		ship.setSunken(true);
+	}
+	
+	private Ship fromCoordinateToShip(Coordinate coordinate) {
+		Square square = fromCoordinateToSquare(coordinate);
+		return square.getShip();
+	}
+	
+	private Square fromCoordinateToSquare(Coordinate coordinate) {
+		return squares[coordinate.y][coordinate.x];
 	}
 
 }

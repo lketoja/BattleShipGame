@@ -2,9 +2,11 @@ package shipBattle;
 
 public class HumanPlayer extends Player{
 
-	@Override
-	public boolean enterShip(Ship ship) {
-		return false;
+	public HumanPlayer(UserInterface uI) {
+		super(uI);
+		// TODO Auto-generated constructor stub
 	}
+
+	
 
 }
