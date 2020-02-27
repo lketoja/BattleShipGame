@@ -51,48 +51,55 @@ public class UserInterface {
 	}
 
 	public Coordinate askForFirstCoordinate(Ship ship) {
-		System.out.println("Enter the first coordinate for ship " + ship.name 
-				+ ". The length of the ship is " + ship.length + "squares");
-		return askForCoordinate(scanner.next());
-		
+		System.out.println("Enter the first coordinate for ship " + ship.name + ". The length of the ship is "
+				+ ship.length + "squares");
+		return askForCoordinate();
+
 	}
 
 	public String askForDirection(Ship ship) {
 		System.out.println("Enter the direction for ship " + ship.name + ". Enter 'down' or 'right'");
 		String input = scanner.next();
-		if(input.equals("down") || input.equals("right")) {
+		if (input.equals("down") || input.equals("right")) {
 			return input;
 		} else {
 			System.out.println("Error! Enter 'down' or 'right'.");
 			return askForDirection(ship);
 		}
 	}
-	
+
 	public Coordinate askForTheCoordinateOfTheMissle() {
-		System.out.println("Which square do you want to shoot at? "
-				+ "Enter the coordinate for the missle (eg. '7g')");
-		String input = scanner.next();
-		if(input.equals("save")) {
-			throw new PlayerWantsToSaveTheGameException();
-		}
-		return askForCoordinate(input);
+		System.out.println("Which square do you want to shoot at? " + "Enter the coordinate for the missle (eg. '7g')");
+		return askForCoordinate();
 	}
 
-	public Coordinate askForCoordinate(String input) {
-		try {
-			return validator.validateCoordinate(input);
-		}catch(IllegalArgumentException e) {
-			System.out.println("Error! Enter one letter (between a-j) and one number"
-					+ "(between 0-9). For example 'd2' is a valid input.");
-			askForCoordinate(input);
+	public Coordinate askForCoordinate() {
+		Coordinate coordinate = new Coordinate(11, 11);
+		boolean validCoordinate = false;
+		do {
+			String input = scanner.next();
+			throwExceptionIfPlayerWantsToSaveTheGame(input);
+			try {
+				coordinate = validator.validateCoordinate(input);
+				validCoordinate = true;
+			} catch (IllegalArgumentException e) {
+				System.out.println("Error! Enter one letter (between a-j) and one number"
+						+ "(between 0-9). For example 'd2' is a valid input.");
+			}
+		} while (!validCoordinate);
+		return coordinate;
+	}
+
+	public void throwExceptionIfPlayerWantsToSaveTheGame(String input) {
+		if (input.equals("save")) {
+			throw new PlayerWantsToSaveTheGameException();
 		}
-		return new Coordinate(11,11);
 	}
 
 	public String askForTheNameOfTheGameToBeSaved() {
-		System.out.println("Enter a name for this game. "
-				+ "(You need this when you want to load this game again!)");
-		return scanner.next();
+		System.out.println("Enter a name for this game. (You need this when you want to load this game again!)");
+		String name = scanner.next();
+		return name;
 	}
 
 	public void closeScanner() {

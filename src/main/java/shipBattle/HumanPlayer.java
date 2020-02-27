@@ -1,12 +1,24 @@
 package shipBattle;
 
-public class HumanPlayer extends Player{
+public class HumanPlayer extends Player {
 
-	public HumanPlayer(UserInterface uI) {
-		super(uI);
-		// TODO Auto-generated constructor stub
+	public HumanPlayer(GameState gameState) {
+		super(gameState);
 	}
 
-	
+	@Override
+	protected void printGameboardBeforeTheShot() {
+		enemyShips.printGameBoard(enemyShips.buildTheViewOfBoard(true));
+	}
+
+	@Override
+	protected void printDirectionsForTurn() {
+		System.out.println("It's " + name + "'s turn.");
+	}
+
+	@Override
+	protected Coordinate shoot(UserInterface UI) {
+		return UI.askForTheCoordinateOfTheMissle();
+	}
 
 }

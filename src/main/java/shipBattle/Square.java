@@ -1,6 +1,8 @@
 package shipBattle;
 
-public class Square {
+import java.io.Serializable;
+
+public class Square implements Serializable{
 	
 	private Ship ship;
 	private boolean shot;

@@ -10,9 +10,9 @@ public class GameLogic {
 	private Player[] players;
 	private UserInterface UI;
 
-	public GameLogic(GameState state, Player player1, Player player2, UserInterface UI) {
+	public GameLogic(Player player1, Player player2, UserInterface UI) {
 		super();
-		this.gameState = state;
+		this.gameState = player1.gameState;
 		players = new Player[2];
 		players[0] = player1;
 		players[1] = player2;
@@ -23,23 +23,21 @@ public class GameLogic {
 		System.out.println("Let's start the game!");
 		System.out.println("You can save the game whenever you want by typing 'save' "
 				+ "instead of the coordinate for the missle.");
-		int counter = 0;
 		while (true) {
-			Player theOneShooting = players[counter % 2];
+			int whoseTurn = gameState.getPlayerInTurn();
+			Player theOneShooting = players[whoseTurn];
 			try {
-				theOneShooting.playTurn(gameState);
+				theOneShooting.playTurn(gameState, UI);
 			} catch (PlayerWantsToSaveTheGameException e) {
 				saveGame();
 			}
-
 		}
-
 	}
 
 	private void saveGame() {
 		String name = UI.askForTheNameOfTheGameToBeSaved();
 		String filename = name + ".ser";
-		GameInfo gameInfo = new GameInfo(gameState, players[0], players[1]);
+		GameInfo gameInfo = new GameInfo(players[0], players[1]);
 		try {
 			FileOutputStream fileOut = new FileOutputStream(filename);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);

@@ -1,8 +1,9 @@
 package shipBattle;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Ship {
+public class Ship implements Serializable{
 	
 	public final String name;
 	public final int length;

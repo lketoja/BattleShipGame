@@ -11,6 +11,14 @@ public class ShipMakerForHumanPlayer extends ShipMaker {
 		super();
 		this.UI = UI;
 	}
+	
+	@Override
+	protected void printDirectionsForEnteringShips(Player player) {
+		System.out.println("Now it's time for " + player.name + " to enter locations for the ships");
+		System.out.println("The ships can touch each other only by corners. (They can't be right next to each other.)");
+		System.out.println("For each ship you will enter the coordinate of the first square (e.g. 'd6') and then the direction");
+		System.out.println("The direction is ether 'down' or 'right'");
+	}
 
 	@Override
 	protected void printMessageOtherShipsTooClose() {
@@ -33,4 +41,6 @@ public class ShipMakerForHumanPlayer extends ShipMaker {
 	protected String getTheDirection(Ship ship) {
 		return UI.askForDirection(ship);
 	}
+	
+	
 }

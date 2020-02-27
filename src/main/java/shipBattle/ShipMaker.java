@@ -12,14 +12,18 @@ public class ShipMaker {
 		gameBoard = new GameBoard();
 	}
 
-	public GameBoard prepareShips() {
+	public GameBoard prepareShips(Player player) {
+		printDirectionsForEnteringShips(player);
+		gameBoard.printGameBoard(gameBoard.buildTheViewOfBoard(false));
 		for (Ship ship : gameBoard.getShips()) {
-			gameBoard.printGameBoard(gameBoard.buildTheViewOfBoard(false));
 			List<Coordinate> location = getAndValidateLocation(ship);
 			gameBoard.saveTheLocationOnBoard(location, ship);
+			gameBoard.printGameBoard(gameBoard.buildTheViewOfBoard(false));
 		}
 		return gameBoard;
 	}
+
+	protected void printDirectionsForEnteringShips(Player player) {}
 
 	private List<Coordinate> getAndValidateLocation(Ship ship) {
 		List<Coordinate> location;
@@ -81,6 +85,7 @@ public class ShipMaker {
 		return lastXorY > 9;
 	}
 
+	//tässäkin voisi käyttää coordinate helperiä
 	private List<Coordinate> generateCoordinates(Coordinate coordinate, String direction, int length) {
 		List<Coordinate> coordinates = new ArrayList<>();
 		int x = coordinate.x;
