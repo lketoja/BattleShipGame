@@ -13,22 +13,22 @@ public class GameState implements Serializable{
 	private Coordinate lastHit;
 	private Direction direction;
 	private boolean lookForSquareThatIsSurroundedBy12UnhitSquares = true;
-	private boolean lookForSquareThatIsSorrounedBy4UnhitSquares = false;
+	private boolean lookForSquareThatIsSurrounedBy4UnhitSquares = true;
 	
 	public boolean isLookForSquareThatIsSurroundedBy12UnhitSquares() {
 		return lookForSquareThatIsSurroundedBy12UnhitSquares;
 	}
 
-	public boolean isLookForSquareThatIsSorrounedBy4UnhitSquares() {
-		return lookForSquareThatIsSorrounedBy4UnhitSquares;
+	public boolean isLookForSquareThatIsSurroundedBy4UnhitSquares() {
+		return lookForSquareThatIsSurrounedBy4UnhitSquares;
 	}
 
 	public void setLookForSquareThatIsSurroundedBy12UnhitSquares(boolean lookForSquareThatIsSurroundedBy12UnhitSquares) {
 		this.lookForSquareThatIsSurroundedBy12UnhitSquares = lookForSquareThatIsSurroundedBy12UnhitSquares;
 	}
 
-	public void setLookForSquareThatIsSorrounedBy4UnhitSquares(boolean lookForSquareThatIsSorrounedBy4UnhitSquares) {
-		this.lookForSquareThatIsSorrounedBy4UnhitSquares = lookForSquareThatIsSorrounedBy4UnhitSquares;
+	public void setLookForSquareThatIsSurroundedBy4UnhitSquares(boolean lookForSquareThatIsSorrounedBy4UnhitSquares) {
+		this.lookForSquareThatIsSurrounedBy4UnhitSquares = lookForSquareThatIsSorrounedBy4UnhitSquares;
 	}
 
 	public int getTheNumberOfTimesComputerHasHitAShip() {

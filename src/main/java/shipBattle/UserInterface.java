@@ -106,4 +106,9 @@ public class UserInterface {
 		scanner.close();
 	}
 
+	public void waitForPlayerToHitEnter() {
+		System.out.println("Write anything and enter for game to continue!");
+		String anything = scanner.next();
+	}
+
 }

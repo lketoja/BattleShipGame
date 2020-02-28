@@ -25,15 +25,38 @@ public class ComputerPlayer extends Player {
 		}
 	}
 
+	//Shooting is optimized by first looking a larger area that hasn't been shot at yet.
+	//First we look for squares that are surrounded by 12 unhit squares (in a shape of diamond).
+	//If none is found, we move to look for squares that are surrounded by 4 unhit squares.
 	private Coordinate shootRandomly() {
 		Coordinate startPoint = drawRandomCoordinate();
-		if (gameState.isLookForSquareThatIsSurroundedBy12UnhitSquares()) {
-			return enemyShips.checkEveryOtherSquareFromStartPointUntil12UnhitSquaresAreFound(startPoint);
-		}
-
-		return null;
+		return lookFor12UnhitSquares(startPoint);
 	}
 
+	private Coordinate lookFor12UnhitSquares(Coordinate startPoint) {
+		try {
+			//If we have checked before that there is no such square left, we move on.
+			if (!gameState.isLookForSquareThatIsSurroundedBy12UnhitSquares())
+				throw new CouldNotFindXUnhitSquaresException();
+			return enemyShips.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 12);
+		}catch (CouldNotFindXUnhitSquaresException e) {
+			gameState.setLookForSquareThatIsSurroundedBy12UnhitSquares(false);
+			return lookFor4UnhitSquares(startPoint);
+		}
+	
+	}
+
+	private Coordinate lookFor4UnhitSquares(Coordinate startPoint) {
+		try {
+			//If we have checked before that there is no such square left, we move on.
+			if (!gameState.isLookForSquareThatIsSurroundedBy4UnhitSquares())
+				throw new CouldNotFindXUnhitSquaresException();
+			return enemyShips.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 4);
+		} catch (CouldNotFindXUnhitSquaresException e) {
+			gameState.setLookForSquareThatIsSurroundedBy4UnhitSquares(false);
+			return enemyShips.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 1);
+		}
+	}
 
 	private Coordinate drawRandomCoordinate() {
 		Coordinate coordinate = new Coordinate(random.nextInt(10), random.nextInt(10));
@@ -43,6 +66,7 @@ public class ComputerPlayer extends Player {
 			return drawRandomCoordinate();
 		}
 	}
+	
 
 	private Coordinate continueShinkingTheShip() {
 		if (gameState.getTheNumberOfTimesComputerHasHitAShip() > 1) {

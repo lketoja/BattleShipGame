@@ -41,6 +41,7 @@ public class Player implements Serializable {
 			updateGameStateAfterMissileDidntHit(missileCoordinate);
 			gameState.changePlayerInTurn();
 		}
+		UI.waitForPlayerToHitEnter();
 	}
 
 	// for HumanPlayer to override
