@@ -136,21 +136,21 @@ public class GameBoard implements Serializable {
 		}
 	}
 
-	public void saveTheLocationOnBoard(List<Coordinate> location, Ship ship) {
-		letTheSquaresKnowThatThereIsAShip(location, ship);
-		letTheShipKnowWhereItIs(location, ship);
-	}
+//	public void saveTheLocationOnBoard(List<Coordinate> location, Ship ship) {
+//		letTheSquaresKnowThatThereIsAShip(location, ship);
+//		letTheShipKnowWhereItIs(location, ship);
+//	}
 
-	private void letTheShipKnowWhereItIs(List<Coordinate> location, Ship ship) {
-		List<Square> locationInSquares = new ArrayList<>();
-		for (Coordinate coordinate : location) {
-			Square square = toSquare(coordinate);
-			locationInSquares.add(square);
-		}
-		ship.setLocation(locationInSquares);
-	}
+//	private void letTheShipKnowWhereItIs(List<Coordinate> location, Ship ship) {
+//		List<Square> locationInSquares = new ArrayList<>();
+//		for (Coordinate coordinate : location) {
+//			Square square = toSquare(coordinate);
+//			locationInSquares.add(square);
+//		}
+//		ship.setLocation(locationInSquares);
+//	}
 
-	private void letTheSquaresKnowThatThereIsAShip(List<Coordinate> location, Ship ship) {
+	public void saveTheShipsLocationOnBoard(List<Coordinate> location, Ship ship) {
 		for (Coordinate coord : location) {
 			squares[coord.y][coord.x].setShip(ship);
 		}
@@ -209,10 +209,10 @@ public class GameBoard implements Serializable {
 		return true;
 	}
 
-	public boolean didTheShipSink(Coordinate coordinate) {
-		Ship ship = fromCoordinateToShip(coordinate);
-		for (Square square : ship.getLocation()) {
-			if (!square.isShot())
+	public boolean didTheShipSink(Coordinate missileCoordinate) {
+		Ship ship = fromCoordinateToShip(missileCoordinate);
+		for (Coordinate coordinate : ship.getLocation()) {
+			if (!toSquare(coordinate).isShot())
 				return false;
 		}
 		return true;

@@ -17,7 +17,8 @@ public class ShipMaker {
 		gameBoard.printGameBoard(gameBoard.buildTheViewOfBoard(false));
 		for (Ship ship : gameBoard.getShips()) {
 			List<Coordinate> location = getAndValidateLocation(ship);
-			gameBoard.saveTheLocationOnBoard(location, ship);
+			gameBoard.saveTheShipsLocationOnBoard(location, ship);
+			ship.setLocation(location);
 			gameBoard.printGameBoard(gameBoard.buildTheViewOfBoard(false));
 		}
 		return gameBoard;

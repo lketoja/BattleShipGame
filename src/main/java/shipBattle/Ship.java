@@ -7,7 +7,7 @@ public class Ship implements Serializable{
 	
 	public final String name;
 	public final int length;
-	private List<Square> location;
+	private List<Coordinate> location;
 	boolean sunken;
 	
 	public boolean isSunken() {
@@ -23,11 +23,11 @@ public class Ship implements Serializable{
 		this.length=length;
 	}
 
-	public List<Square> getLocation() {
+	public List<Coordinate> getLocation() {
 		return location;
 	}
 
-	public void setLocation(List<Square> location) {
+	public void setLocation(List<Coordinate> location) {
 		this.location = location;
 	}
 

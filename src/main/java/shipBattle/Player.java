@@ -71,6 +71,7 @@ public class Player implements Serializable {
 
 	protected void handleSunkenShip(Coordinate missileCoordinate) {
 		enemyShips.markSunkenShip(missileCoordinate);
+		enemyShips.markTheSquaresArroundASunkenShip(missileCoordinate);
 		if (enemyShips.areAllTheShipsSunken()) {
 			System.out.println("All the ships are sunken! " + name + " won!");
 			System.exit(0);
