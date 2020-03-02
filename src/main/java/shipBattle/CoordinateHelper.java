@@ -1,7 +1,11 @@
 package shipBattle;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CoordinateHelper {
 
+	
 	public static Coordinate getTheNextCoordinate(Coordinate startPoint, Direction direction) {
 		switch (direction) {
 		case UP:
@@ -41,14 +45,16 @@ public class CoordinateHelper {
 	}
 
 	public static Coordinate skipOverOneCoordinateAndGetTheNext(Coordinate startPoint) {
-		//first we assume that we stay in one horizontal row
+		// first we assume that we stay in one horizontal row
 		int newX = startPoint.x + 2;
 		int newY = startPoint.y;
-		if(newX > 9) { //this is true if startPoint.x was 8 or 9 so we actually have to move to next line
+		if (newX > 9) { // this is true if startPoint.x was 8 or 9 so we actually have to move to next
+						// line
 			newX = newX % 10;
-			newY = (newY + 1) % 10; //if startPoint.y was 9, we move to first row
+			newY = (newY + 1) % 10; // if startPoint.y was 9, we move to first row
 		}
 		return new Coordinate(newX, newY);
 	}
+	
 
 }

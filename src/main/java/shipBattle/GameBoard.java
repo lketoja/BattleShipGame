@@ -38,117 +38,56 @@ public class GameBoard implements Serializable {
 	}
 
 	public boolean areTheOtherShipsTooClose(List<Coordinate> suggestedLocationForNewShip) {
-		for (Coordinate coordinate : suggestedLocationForNewShip) {
-			if (!surroundingSquaresAreFreeOfShips(coordinate))
-				return false;
+		List<Coordinate> coordinatesToBeChecked = GameBoardHelper
+				.getTheCoordinatesSurrounding(suggestedLocationForNewShip);
+		for (Coordinate coordinate : coordinatesToBeChecked) {
+			if (isThereAShipIn(coordinate)) {
+				return true;
+			}
 		}
-		return true;
-	}
-	
-	private boolean surroundingSquaresAreFreeOfShips(Coordinate middlePoint) {
-		List<Direction> directions = Arrays.asList(Direction.values());
-		for (Direction direction : directions) {
-			if (!nextSquareIsFreeOfShips(middlePoint, direction))
-				return false;
-		}
-		return true;
-	}
-
-	private boolean nextSquareIsFreeOfShips(Coordinate middlePoint, Direction direction) {
-		try {
-			Coordinate coordinate = CoordinateHelper.getTheNextCoordinate(middlePoint, direction);
-			return toSquare(coordinate).getShip() == null;
-		} catch (cantMoveInThatDirectionException e) {
-			return true;
-		}
-	}
-	
-	public void markTheSquaresArroundASunkenShip(Coordinate hitPoint) {
-		Ship sunkenShip = fromCoordinateToShip(hitPoint);
-		
-		
-	}
-	
-	public Coordinate checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(Coordinate startPoint, int x) {
-		int maxNumberOfSquaresToBeChecked = BOARD_SIZE * BOARD_SIZE / 2;
-		for (int i = 0; i < maxNumberOfSquaresToBeChecked; i++) {
-			Coordinate coordinate = CoordinateHelper.skipOverOneCoordinateAndGetTheNext(startPoint);
-			if(areThereXUnhitSquaresSurrounding(coordinate, x))
-				return coordinate;
-		}
-		throw new CouldNotFindXUnhitSquaresException();	
-	}
-	
-	private boolean areThereXUnhitSquaresSurrounding(Coordinate coordinate, int x) {
-		if(x==12)
-			return areThere12UnhitSquaresSurrounding(coordinate);
-		if(x==4)
-			return areThere4UnhitSquaresSurrounding(coordinate);
-		if(x==1)
-			return toSquare(coordinate).isShot();
 		return false;
 	}
-	
-	private boolean areThere12UnhitSquaresSurrounding(Coordinate middlePoint) {
-		if(!areThere4UnhitSquaresSurrounding(middlePoint))
-			return false;
-		List<Direction> directions = Arrays.asList(Direction.values());
-		for(Direction direction : directions) {
-			if(!areTheSquaresUnhitInDirection(direction, middlePoint))
-				return false;
-		}
-		return true;
-	}
-	
-	private boolean areTheSquaresUnhitInDirection(Direction direction, Coordinate middlePoint) {
-		try {
-			Coordinate nextCoordinate = CoordinateHelper.getTheNextCoordinate(middlePoint, direction);
-			return areThere4UnhitSquaresSurrounding(nextCoordinate);
-		} catch (cantMoveInThatDirectionException e) {
-			return true;
-		}
-	}
 
-	private boolean areThere4UnhitSquaresSurrounding(Coordinate middlePoint) {
-		List<Direction> directions = Arrays.asList(Direction.values());
-		for(Direction direction : directions) {
-			if(nextSquareIsShotAt(middlePoint, direction))
-				return false;
-		}
-		return true;
-	}
-	
-	private boolean nextSquareIsShotAt(Coordinate middlePoint, Direction direction) {
-		try {
-			Coordinate coordinate = CoordinateHelper.getTheNextCoordinate(middlePoint, direction);
-			return toSquare(coordinate).isShot();
-		} catch (cantMoveInThatDirectionException e) {
-			return false;
+	public void markTheSquaresArroundASunkenShip(Coordinate hitPoint) {
+		Ship sunkenShip = fromCoordinateToShip(hitPoint);
+		List<Coordinate> coordinates = GameBoardHelper.getTheCoordinatesSurrounding(sunkenShip.getLocation());
+		for (Coordinate coordinate : coordinates) {
+			toSquare(coordinate).setShot(true);
 		}
 	}
 
 	public int getTheNumberOfUnhitSquares(Coordinate startPoint, Direction direction) {
 		try {
 			Coordinate nextCoordinate = CoordinateHelper.getTheNextCoordinate(startPoint, direction);
+			if (toSquare(nextCoordinate).isShot()) {
+				return 0;
+			}
 			return 1 + getTheNumberOfUnhitSquares(nextCoordinate, direction);
 		} catch (cantMoveInThatDirectionException e) {
 			return 0;
 		}
 	}
+	
+	public Coordinate checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(Coordinate startPoint,
+			int x) {
+		int maxNumberOfSquaresToBeChecked = 10 * 10 / 2;
+		for (int i = 0; i < maxNumberOfSquaresToBeChecked; i++) {
+			Coordinate coordinate = CoordinateHelper.skipOverOneCoordinateAndGetTheNext(startPoint);
+			if (areThereXUnhitSquaresSurrounding(coordinate, x))
+				return coordinate;
+		}
+		throw new CouldNotFindXUnhitSquaresException();
+	}
 
-//	public void saveTheLocationOnBoard(List<Coordinate> location, Ship ship) {
-//		letTheSquaresKnowThatThereIsAShip(location, ship);
-//		letTheShipKnowWhereItIs(location, ship);
-//	}
-
-//	private void letTheShipKnowWhereItIs(List<Coordinate> location, Ship ship) {
-//		List<Square> locationInSquares = new ArrayList<>();
-//		for (Coordinate coordinate : location) {
-//			Square square = toSquare(coordinate);
-//			locationInSquares.add(square);
-//		}
-//		ship.setLocation(locationInSquares);
-//	}
+	private boolean areThereXUnhitSquaresSurrounding(Coordinate coordinate, int x) {
+		if (x == 12)
+			return GameBoardHelper.areThere12UnhitSquaresSurrounding(this, coordinate);
+		if (x == 4)
+			return GameBoardHelper.areThere4UnhitSquaresSurrounding(this, coordinate);
+		if (x == 1)
+			return toSquare(coordinate).isShot();
+		return false;
+	}
 
 	public void saveTheShipsLocationOnBoard(List<Coordinate> location, Ship ship) {
 		for (Coordinate coord : location) {
@@ -236,12 +175,8 @@ public class GameBoard implements Serializable {
 		return square.getShip();
 	}
 
-	private Square toSquare(Coordinate coordinate) {
+	public Square toSquare(Coordinate coordinate) {
 		return squares[coordinate.y][coordinate.x];
 	}
-
-	
-
-	
 
 }

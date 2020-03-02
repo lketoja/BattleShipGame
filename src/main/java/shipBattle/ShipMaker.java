@@ -6,6 +6,7 @@ import java.util.List;
 public class ShipMaker {
 
 	protected GameBoard gameBoard;
+	
 
 	public ShipMaker() {
 		super();
@@ -27,15 +28,15 @@ public class ShipMaker {
 	protected void printDirectionsForEnteringShips(Player player) {}
 
 	private List<Coordinate> getAndValidateLocation(Ship ship) {
-		List<Coordinate> location;
+		List<Coordinate> suggestedLocationForNewShip;
 		boolean validLocation;
 		do {
-			location = getTheLocationFor(ship);
-			validLocation = gameBoard.areTheOtherShipsTooClose(location);
+			suggestedLocationForNewShip = getTheLocationFor(ship);
+			validLocation = gameBoard.areTheOtherShipsTooClose(suggestedLocationForNewShip);
 			if (!validLocation)
 				printMessageOtherShipsTooClose();
 		} while (!validLocation);
-		return location;
+		return suggestedLocationForNewShip;
 	}
 
 	private List<Coordinate> getTheLocationFor(Ship ship) {

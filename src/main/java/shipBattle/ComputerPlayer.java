@@ -67,7 +67,6 @@ public class ComputerPlayer extends Player {
 		}
 	}
 	
-
 	private Coordinate continueShinkingTheShip() {
 		if (gameState.getTheNumberOfTimesComputerHasHitAShip() > 1) {
 			return continueToShootAlongTheKnownDirection(gameState.getLastHit(), gameState.getDirection());
