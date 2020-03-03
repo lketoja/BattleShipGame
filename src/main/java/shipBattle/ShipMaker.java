@@ -32,7 +32,7 @@ public class ShipMaker {
 		boolean validLocation;
 		do {
 			suggestedLocationForNewShip = getTheLocationFor(ship);
-			validLocation = gameBoard.areTheOtherShipsTooClose(suggestedLocationForNewShip);
+			validLocation = gameBoard.areTheOtherShipsFarEnough(suggestedLocationForNewShip);
 			if (!validLocation)
 				printMessageOtherShipsTooClose();
 		} while (!validLocation);

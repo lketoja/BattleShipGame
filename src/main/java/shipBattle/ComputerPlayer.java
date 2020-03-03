@@ -1,6 +1,8 @@
 package shipBattle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +27,12 @@ public class ComputerPlayer extends Player {
 		}
 	}
 
-	//Shooting is optimized by first looking a larger area that hasn't been shot at yet.
-	//First we look for squares that are surrounded by 12 unhit squares (in a shape of diamond).
-	//If none is found, we move to look for squares that are surrounded by 4 unhit squares.
+	// Shooting is optimized by first looking a larger area that hasn't been shot at
+	// yet.
+	// First we look for squares that are surrounded by 12 unhit squares (in a shape
+	// of diamond).
+	// If none is found, we move to look for squares that are surrounded by 4 unhit
+	// squares.
 	private Coordinate shootRandomly() {
 		Coordinate startPoint = drawRandomCoordinate();
 		return lookFor12UnhitSquares(startPoint);
@@ -35,20 +40,20 @@ public class ComputerPlayer extends Player {
 
 	private Coordinate lookFor12UnhitSquares(Coordinate startPoint) {
 		try {
-			//If we have checked before that there is no such square left, we move on.
+			// If we have checked before that there is no such square left, we move on.
 			if (!gameState.isLookForSquareThatIsSurroundedBy12UnhitSquares())
 				throw new CouldNotFindXUnhitSquaresException();
 			return enemyShips.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 12);
-		}catch (CouldNotFindXUnhitSquaresException e) {
+		} catch (CouldNotFindXUnhitSquaresException e) {
 			gameState.setLookForSquareThatIsSurroundedBy12UnhitSquares(false);
 			return lookFor4UnhitSquares(startPoint);
 		}
-	
+
 	}
 
 	private Coordinate lookFor4UnhitSquares(Coordinate startPoint) {
 		try {
-			//If we have checked before that there is no such square left, we move on.
+			// If we have checked before that there is no such square left, we move on.
 			if (!gameState.isLookForSquareThatIsSurroundedBy4UnhitSquares())
 				throw new CouldNotFindXUnhitSquaresException();
 			return enemyShips.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 4);
@@ -66,7 +71,7 @@ public class ComputerPlayer extends Player {
 			return drawRandomCoordinate();
 		}
 	}
-	
+
 	private Coordinate continueShinkingTheShip() {
 		if (gameState.getTheNumberOfTimesComputerHasHitAShip() > 1) {
 			return continueToShootAlongTheKnownDirection(gameState.getLastHit(), gameState.getDirection());
@@ -80,20 +85,21 @@ public class ComputerPlayer extends Player {
 	}
 
 	private Coordinate shootToTheBestDirectionFromTheFirstHit() {
-		Direction bestDirection = whichDirectionHasTheBiggestNumberOfEmptySquares(gameState.getFirstHit());
+		Direction bestDirection = whichDirectionHasTheBiggestNumberOfUnhitSquares(gameState.getFirstHit());
 		gameState.setDirection(bestDirection);
 		return continueToShootAlongTheKnownDirection(gameState.getFirstHit(), bestDirection);
 	}
 
-	private Direction whichDirectionHasTheBiggestNumberOfEmptySquares(Coordinate startPoint) {
-		Map<Direction, Integer> emptySquaresInEachDirection = new HashMap<>();
+	private Direction whichDirectionHasTheBiggestNumberOfUnhitSquares(Coordinate startPoint) {
+		List<DirectionAndTheNumberOfUnhitSquares> list = new ArrayList<>();
 		List<Direction> directions = Arrays.asList(Direction.values());
 		for (Direction direction : directions) {
 			int numberOfUnhitSquares = enemyShips.getTheNumberOfUnhitSquares(startPoint, direction);
-			emptySquaresInEachDirection.put(direction, numberOfUnhitSquares);
+			list.add(new DirectionAndTheNumberOfUnhitSquares(direction, numberOfUnhitSquares));
 		}
-		// sort the hashmap
-		return Direction.UP;
+		list.sort(Comparator.comparing(DirectionAndTheNumberOfUnhitSquares::getTheNumberOfUnhitSquares));
+		Direction bestDirection = list.get(3).getDirection();
+		return bestDirection;
 	}
 
 	@Override
@@ -101,7 +107,7 @@ public class ComputerPlayer extends Player {
 		if (gameState.getTheNumberOfTimesComputerHasHitAShip() == 0)
 			gameState.setFirstHit(missileCoordinate);
 		gameState.incrementTheNuberOfTimesComputerHasHitAShip();
-		gameState.setFirstHit(missileCoordinate);
+		gameState.setLastHit(missileCoordinate);
 	}
 
 	@Override
