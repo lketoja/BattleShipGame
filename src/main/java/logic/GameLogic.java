@@ -33,28 +33,11 @@ public class GameLogic {
 			try {
 				theOneShooting.playTurn(gameState, UI);
 			} catch (PlayerWantsToSaveTheGameException e) {
-				saveGame();
+				GameIO.saveGame(UI, players[0], players[1]);
 			}
 		}
 	}
 
-	private void saveGame() {
-		String name = UI.askForTheNameOfTheGameToBeSaved();
-		String filename = name + ".ser";
-		GameInfo gameInfo = new GameInfo(players[0], players[1]);
-		try {
-			FileOutputStream fileOut = new FileOutputStream(filename);
-			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-			objectOut.writeObject(gameInfo);
-			objectOut.close();
-			fileOut.close();
-			System.out.println("The game has been saved!");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("The game has ended. Thank you for playing!");
-		UI.closeScanner();
-		System.exit(0);
-	}
+	
 
 }

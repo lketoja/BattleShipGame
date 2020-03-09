@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import exceptions.CouldNotFindXUnhitSquaresException;
-import exceptions.cantMoveInThatDirectionException;
+import exceptions.CantMoveInThatDirectionException;
 import helpers.Coordinate;
 import helpers.CoordinateHelper;
 import helpers.Direction;
@@ -70,7 +70,7 @@ public class GameBoard implements Serializable {
 				return 0;
 			}
 			return 1 + getTheNumberOfUnhitSquares(nextCoordinate, direction);
-		} catch (cantMoveInThatDirectionException e) {
+		} catch (CantMoveInThatDirectionException e) {
 			return 0;
 		}
 	}

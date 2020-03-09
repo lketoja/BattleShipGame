@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import components.GameBoard;
-import exceptions.cantMoveInThatDirectionException;
+import exceptions.CantMoveInThatDirectionException;
 
 public class GameBoardHelper {
 
@@ -23,7 +23,7 @@ public class GameBoardHelper {
 		for (Direction direction : directions) {
 			try {
 				coordinates.add(CoordinateHelper.getTheNextCoordinate(middlePoint, direction));
-			} catch (cantMoveInThatDirectionException e) {
+			} catch (CantMoveInThatDirectionException e) {
 			}
 		}
 		return coordinates;

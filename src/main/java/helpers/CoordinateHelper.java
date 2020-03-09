@@ -3,7 +3,7 @@ package helpers;
 import java.util.Arrays;
 import java.util.List;
 
-import exceptions.cantMoveInThatDirectionException;
+import exceptions.CantMoveInThatDirectionException;
 
 public class CoordinateHelper {
 	
@@ -27,19 +27,19 @@ public class CoordinateHelper {
 		switch (direction) {
 		case UP:
 			if (startPoint.y == 0)
-				throw new cantMoveInThatDirectionException();
+				throw new CantMoveInThatDirectionException();
 			return new Coordinate(startPoint.x, startPoint.y - 1);
 		case DOWN:
 			if (startPoint.y == 9)
-				throw new cantMoveInThatDirectionException();
+				throw new CantMoveInThatDirectionException();
 			return new Coordinate(startPoint.x, startPoint.y + 1);
 		case LEFT:
 			if (startPoint.x == 0)
-				throw new cantMoveInThatDirectionException();
+				throw new CantMoveInThatDirectionException();
 			return new Coordinate(startPoint.x - 1, startPoint.y);
 		case RIGHT:
 			if (startPoint.x == 9)
-				throw new cantMoveInThatDirectionException();
+				throw new CantMoveInThatDirectionException();
 			return new Coordinate(startPoint.x + 1, startPoint.y);
 		default:
 			throw new IllegalArgumentException();

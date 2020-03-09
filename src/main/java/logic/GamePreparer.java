@@ -1,9 +1,6 @@
 package logic;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.ObjectInputStream;
-
 import components.ComputerPlayer;
 import components.GameBoard;
 import components.HumanPlayer;
@@ -25,39 +22,20 @@ public class GamePreparer {
 
 	public GameInfo prepareGame() {
 		System.out.println("Welcome to play Battle Ship!");
-		GameInfo game = setTheGameReadyToBePlayed();
-		return game;
-	}
-
-	private GameInfo setTheGameReadyToBePlayed() {
 		if (UI.userWantsToLoadAGame())
-			return loadGame();
+			return loadGame();	
 		return createNewGame();
 	}
-
+	
 	private GameInfo loadGame() {
-		String filename = UI.askForFilename();
-		GameInfo storedGame = readTheFile(filename);
-		if (storedGame == null)
-			setTheGameReadyToBePlayed();
-		return storedGame;
-	}
-
-	private GameInfo readTheFile(String filename) {
 		try {
-			FileInputStream fileIn = new FileInputStream(filename);
-			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-			GameInfo storedGame = (GameInfo) objectIn.readObject();
-			fileIn.close();
-			objectIn.close();
-			return storedGame;
-		} catch (FileNotFoundException e) {
-			System.out.println("We couldn't find a game with a name that you entered.");
-			e.printStackTrace();
-			return null;
+			return GameIO.loadGame(UI);
+		} catch (FileNotFoundException e){
+			System.out.println("We couldn't find a stored game with the name you entered.");
+			return prepareGame();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			System.out.println("Something went wrong while trying to read the file.");
+			return prepareGame();
 		}
 	}
 
