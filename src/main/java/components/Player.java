@@ -1,31 +1,20 @@
-package shipBattle;
+package components;
 
 import java.io.Serializable;
+
+import exceptions.SubclassDidNotImplementException;
+import helpers.Coordinate;
+import helpers.UserInterface;
+import logic.GameState;
 
 public class Player implements Serializable {
 
 	protected String name;
 	protected GameBoard enemyShips;
-	protected GameState gameState;
+	private GameState gameState;
 
 	public Player(GameState gameState) {
-		this.gameState = gameState;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public GameBoard getGameBoard() {
-		return enemyShips;
-	}
-
-	public void setGameBoard(GameBoard gameBoard) {
-		this.enemyShips = gameBoard;
+		this.setGameState(gameState);
 	}
 
 	public void playTurn(GameState gameState, UserInterface UI) {
@@ -88,5 +77,28 @@ public class Player implements Serializable {
 	protected Coordinate shoot(UserInterface UI) {
 		throw new SubclassDidNotImplementException();
 	}
+	
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public GameBoard getGameBoard() {
+		return enemyShips;
+	}
+
+	public void setGameBoard(GameBoard gameBoard) {
+		this.enemyShips = gameBoard;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
 }

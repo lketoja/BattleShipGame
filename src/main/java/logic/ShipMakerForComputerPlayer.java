@@ -1,6 +1,9 @@
-package shipBattle;
+package logic;
 
 import java.util.Random;
+
+import components.Ship;
+import helpers.Coordinate;
 
 public class ShipMakerForComputerPlayer extends ShipMaker {
 	

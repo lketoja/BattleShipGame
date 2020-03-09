@@ -1,7 +1,9 @@
-package shipBattle;
+package components;
 
 import java.io.Serializable;
 import java.util.List;
+
+import helpers.Coordinate;
 
 public class Ship implements Serializable{
 	

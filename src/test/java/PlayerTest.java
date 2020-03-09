@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import shipBattle.Player;
+import components.Player;
 
 public class PlayerTest {
 

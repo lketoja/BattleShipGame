@@ -1,6 +1,8 @@
-package shipBattle;
+package logic;
 
 import java.util.Scanner;
+
+import helpers.UserInterface;
 
 public class Main {
 	

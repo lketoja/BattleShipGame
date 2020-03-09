@@ -1,10 +1,27 @@
-package shipBattle;
+package helpers;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CoordinateHelper {
+import exceptions.cantMoveInThatDirectionException;
 
+public class CoordinateHelper {
+	
+	public static Coordinate validateCoordinate(String input) {
+		if (input.length() < 2)
+			throw new IllegalArgumentException();
+		int x = input.charAt(0) - 'a';
+		int y = input.charAt(1) - '0';
+		if (between0And9(x) && between0And9(y)) {
+			return new Coordinate(x, y);
+		} else {
+			throw new IllegalArgumentException();
+		}
+	}
+
+	public static boolean between0And9(int number) {
+		return number >= 0 && number <= 9;
+	}
 	
 	public static Coordinate getTheNextCoordinate(Coordinate startPoint, Direction direction) {
 		switch (direction) {

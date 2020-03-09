@@ -1,8 +1,12 @@
-package shipBattle;
+package logic;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+
+import components.Player;
+import exceptions.PlayerWantsToSaveTheGameException;
+import helpers.UserInterface;
 
 public class GameLogic {
 
@@ -12,7 +16,7 @@ public class GameLogic {
 
 	public GameLogic(Player player1, Player player2, UserInterface UI) {
 		super();
-		this.gameState = player1.gameState;
+		this.gameState = player1.getGameState();
 		players = new Player[2];
 		players[0] = player1;
 		players[1] = player2;

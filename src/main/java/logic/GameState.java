@@ -1,7 +1,10 @@
-package shipBattle;
+package logic;
 
 import java.io.Serializable;
 import java.util.Random;
+
+import helpers.Coordinate;
+import helpers.Direction;
 
 public class GameState implements Serializable{
 	

@@ -1,4 +1,4 @@
-package shipBattle;
+package components;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,6 +6,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import exceptions.CouldNotFindXUnhitSquaresException;
+import exceptions.cantMoveInThatDirectionException;
+import helpers.Coordinate;
+import helpers.CoordinateHelper;
+import helpers.Direction;
+import helpers.GameBoardHelper;
 
 public class GameBoard implements Serializable {
 

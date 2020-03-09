@@ -1,4 +1,4 @@
-package shipBattle;
+package components;
 
 import java.io.Serializable;
 

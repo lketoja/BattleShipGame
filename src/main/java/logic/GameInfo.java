@@ -1,6 +1,8 @@
-package shipBattle;
+package logic;
 
 import java.io.Serializable;
+
+import components.Player;
 
 public class GameInfo implements Serializable{
 	

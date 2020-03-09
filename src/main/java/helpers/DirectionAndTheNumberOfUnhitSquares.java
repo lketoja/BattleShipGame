@@ -1,4 +1,4 @@
-package shipBattle;
+package helpers;
 
 public class DirectionAndTheNumberOfUnhitSquares {
 	

@@ -1,4 +1,8 @@
-package shipBattle;
+package components;
+
+import helpers.Coordinate;
+import helpers.UserInterface;
+import logic.GameState;
 
 public class HumanPlayer extends Player {
 

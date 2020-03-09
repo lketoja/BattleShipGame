@@ -1,7 +1,14 @@
-package shipBattle;
+package logic;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import components.GameBoard;
+import components.Player;
+import components.Ship;
+import exceptions.ShipOutOfBoardException;
+import exceptions.SubclassDidNotImplementException;
+import helpers.Coordinate;
 
 public class ShipMaker {
 

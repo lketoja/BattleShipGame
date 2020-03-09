@@ -1,8 +1,14 @@
-package shipBattle;
+package logic;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
+
+import components.ComputerPlayer;
+import components.GameBoard;
+import components.HumanPlayer;
+import components.Player;
+import helpers.UserInterface;
 
 public class GamePreparer {
 

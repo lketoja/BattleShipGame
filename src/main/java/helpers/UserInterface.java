@@ -1,15 +1,16 @@
-package shipBattle;
+package helpers;
 
 import java.util.Scanner;
+
+import components.Ship;
+import exceptions.PlayerWantsToSaveTheGameException;
 
 public class UserInterface {
 
 	private Scanner scanner;
-	private CoordinateValidator validator;
 
 	public UserInterface(Scanner scanner) {
 		this.scanner = scanner;
-		validator = new CoordinateValidator();
 	}
 
 	public boolean userWantsToLoadAGame() {
@@ -80,7 +81,7 @@ public class UserInterface {
 			String input = scanner.next();
 			throwExceptionIfPlayerWantsToSaveTheGame(input);
 			try {
-				coordinate = validator.validateCoordinate(input);
+				coordinate = CoordinateHelper.validateCoordinate(input);
 				validCoordinate = true;
 			} catch (IllegalArgumentException e) {
 				System.out.println("Error! Enter one letter (between a-j) and one number"

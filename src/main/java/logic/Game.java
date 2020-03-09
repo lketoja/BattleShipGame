@@ -1,4 +1,6 @@
-package shipBattle;
+package logic;
+
+import components.Player;
 
 public class Game {
 	
