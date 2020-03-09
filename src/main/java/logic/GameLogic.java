@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 
 import components.Player;
 import exceptions.PlayerWantsToSaveTheGameException;
+import helpers.GameIO;
 import helpers.UserInterface;
 
 public class GameLogic {
@@ -14,12 +15,12 @@ public class GameLogic {
 	private Player[] players;
 	private UserInterface UI;
 
-	public GameLogic(Player player1, Player player2, UserInterface UI) {
+	public GameLogic(GameInfo game, UserInterface UI) {
 		super();
-		this.gameState = player1.getGameState();
+		gameState = game.gameState;
 		players = new Player[2];
-		players[0] = player1;
-		players[1] = player2;
+		players[0] = game.player1;
+		players[1] = game.player2;
 		this.UI = UI;
 	}
 
@@ -33,7 +34,7 @@ public class GameLogic {
 			try {
 				theOneShooting.playTurn(gameState, UI);
 			} catch (PlayerWantsToSaveTheGameException e) {
-				GameIO.saveGame(UI, players[0], players[1]);
+				GameIO.saveGame(UI, new GameInfo(players[0], players[1], gameState));
 			}
 		}
 	}

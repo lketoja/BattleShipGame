@@ -6,10 +6,6 @@ import logic.GameState;
 
 public class HumanPlayer extends Player {
 
-	public HumanPlayer(GameState gameState) {
-		super(gameState);
-	}
-
 	@Override
 	protected void printGameboardBeforeTheShot() {
 		enemyShips.printGameBoard(enemyShips.buildTheViewOfBoard(true));
@@ -21,7 +17,7 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	protected Coordinate shoot(UserInterface UI) {
+	protected Coordinate shoot(GameState notNeeded, UserInterface UI) {
 		return UI.askForTheCoordinateOfTheMissle();
 	}
 

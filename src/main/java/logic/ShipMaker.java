@@ -9,6 +9,8 @@ import components.Ship;
 import exceptions.ShipOutOfBoardException;
 import exceptions.SubclassDidNotImplementException;
 import helpers.Coordinate;
+import helpers.CoordinateHelper;
+import helpers.Direction;
 
 public class ShipMaker {
 
@@ -57,10 +59,10 @@ public class ShipMaker {
 
 	private List<Coordinate> chooseLocation(Ship ship) throws ShipOutOfBoardException {
 		Coordinate coordinate = getTheFirstCoordinate(ship);
-		String direction = getTheDirection(ship);
+		Direction direction = getTheDirection(ship);
 		if (isOutOfBoard(coordinate, direction, ship.length))
 			throw new ShipOutOfBoardException();
-		List<Coordinate> location = generateCoordinates(coordinate, direction, ship.length);
+		List<Coordinate> location = CoordinateHelper.generateCoordinates(coordinate, direction, ship.length);
 		System.out.println(location);
 		return location;
 	}
@@ -75,15 +77,15 @@ public class ShipMaker {
 		throw new SubclassDidNotImplementException();
 	}
 
-	protected String getTheDirection(Ship ship) {
+	protected Direction getTheDirection(Ship ship) {
 		throw new SubclassDidNotImplementException();
 	}
 
-	private boolean isOutOfBoard(Coordinate coordinate, String direction, int length) {
-		if (direction.equals("down")) {
+	private boolean isOutOfBoard(Coordinate coordinate, Direction direction, int length) {
+		if (direction == Direction.DOWN) {
 			return lastXOrYIsOutOfBoard(coordinate.y, length);
 		}
-		if (direction.equals("right")) {
+		if (direction == Direction.UP) {
 			return lastXOrYIsOutOfBoard(coordinate.x, length);
 		}
 		return false;
@@ -92,22 +94,6 @@ public class ShipMaker {
 	private boolean lastXOrYIsOutOfBoard(int firstXorY, int length) {
 		int lastXorY = firstXorY + (length - 1);
 		return lastXorY > 9;
-	}
-
-	//tässäkin voisi käyttää coordinate helperiä
-	private List<Coordinate> generateCoordinates(Coordinate coordinate, String direction, int length) {
-		List<Coordinate> coordinates = new ArrayList<>();
-		int x = coordinate.x;
-		int y = coordinate.y;
-		int addToX = 0, addToY = 0;
-		if (direction.equals("down"))
-			addToY = 1;
-		if (direction.equals("right"))
-			addToX = 1;
-		for (int i = 0; i < length; i++) {
-			coordinates.add(new Coordinate(x + i * addToX, y + i * addToY));
-		}
-		return coordinates;
 	}
 
 }

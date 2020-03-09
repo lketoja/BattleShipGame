@@ -4,6 +4,7 @@ import java.util.Random;
 
 import components.Ship;
 import helpers.Coordinate;
+import helpers.Direction;
 
 public class ShipMakerForComputerPlayer extends ShipMaker {
 	
@@ -20,8 +21,8 @@ public class ShipMakerForComputerPlayer extends ShipMaker {
 	}
 	
 	@Override
-	protected String getTheDirection(Ship ship) {
-		String[] directions= {"down", "right"};
+	protected Direction getTheDirection(Ship ship) {
+		Direction[] directions= {Direction.DOWN, Direction.UP};
 		return directions[random.nextInt(2)];
 	}
 

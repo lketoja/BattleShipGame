@@ -1,11 +1,9 @@
 package logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import components.Player;
 import components.Ship;
 import helpers.Coordinate;
+import helpers.Direction;
 import helpers.UserInterface;
 
 public class ShipMakerForHumanPlayer extends ShipMaker {
@@ -43,7 +41,7 @@ public class ShipMakerForHumanPlayer extends ShipMaker {
 	}
 
 	@Override
-	protected String getTheDirection(Ship ship) {
+	protected Direction getTheDirection(Ship ship) {
 		return UI.askForDirection(ship);
 	}
 	

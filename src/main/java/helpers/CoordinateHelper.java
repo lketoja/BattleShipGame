@@ -1,5 +1,6 @@
 package helpers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +22,16 @@ public class CoordinateHelper {
 
 	public static boolean between0And9(int number) {
 		return number >= 0 && number <= 9;
+	}
+	
+	public static List<Coordinate> generateCoordinates(Coordinate coordinate, Direction direction, int length) {
+		List<Coordinate> coordinates = new ArrayList<>();
+		Coordinate coordinateWeWantToAddToTheList = coordinate;
+		for(int i = 0; i < length; i++) {
+			coordinates.add(coordinateWeWantToAddToTheList);
+			coordinateWeWantToAddToTheList = CoordinateHelper.getTheNextCoordinate(coordinateWeWantToAddToTheList, direction);
+		}
+		return coordinates;
 	}
 	
 	public static Coordinate getTheNextCoordinate(Coordinate startPoint, Direction direction) {

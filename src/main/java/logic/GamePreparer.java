@@ -5,6 +5,7 @@ import components.ComputerPlayer;
 import components.GameBoard;
 import components.HumanPlayer;
 import components.Player;
+import helpers.GameIO;
 import helpers.UserInterface;
 
 public class GamePreparer {
@@ -42,7 +43,7 @@ public class GamePreparer {
 	private GameInfo createNewGame() {
 		getThePlayersReady();
 		enterShipsToTheGameBoard();
-		return new GameInfo(player1, player2);
+		return new GameInfo(player1, player2, new GameState());
 	}
 
 	private void getThePlayersReady() {
@@ -50,12 +51,12 @@ public class GamePreparer {
 		if (UI.userWantsToPlayWithAFriend()) {
 			player2 = createHumanPlayer();
 		} else {
-			player2 = new ComputerPlayer(gameState);
+			player2 = new ComputerPlayer();
 		}
 	}
 
 	private Player createHumanPlayer() {
-		Player player = new HumanPlayer(gameState);
+		Player player = new HumanPlayer();
 		player.setName(UI.askForPlayersName());
 		return player;
 	}

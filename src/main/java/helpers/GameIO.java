@@ -1,4 +1,4 @@
-package logic;
+package helpers;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import components.Player;
-import helpers.UserInterface;
+import logic.GameInfo;
 
 public class GameIO {
 	
@@ -22,14 +21,13 @@ public class GameIO {
 		return storedGame;	
 	}
 	
-	public static void saveGame(UserInterface UI, Player player1, Player player2) {
+	public static void saveGame(UserInterface UI, GameInfo game) {
 		String name = UI.askForTheNameOfTheGameToBeSaved();
 		String filename = name + ".ser";
-		GameInfo gameInfo = new GameInfo(player1, player2);
 		try {
 			FileOutputStream fileOut = new FileOutputStream(filename);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-			objectOut.writeObject(gameInfo);
+			objectOut.writeObject(game);
 			objectOut.close();
 			fileOut.close();
 			System.out.println("The game has been saved!");

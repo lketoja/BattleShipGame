@@ -11,23 +11,18 @@ public class Player implements Serializable {
 
 	protected String name;
 	protected GameBoard enemyShips;
-	private GameState gameState;
-
-	public Player(GameState gameState) {
-		this.setGameState(gameState);
-	}
 
 	public void playTurn(GameState gameState, UserInterface UI) {
 		printDirectionsForTurn();
 		printGameboardBeforeTheShot();
-		Coordinate missileCoordinate = shoot(UI);
+		Coordinate missileCoordinate = shoot(gameState, UI);
 		enemyShips.markTheSquareThatWasHit(missileCoordinate);
 		printGameboardAfterTheShot();
 		if (enemyShips.isThereAShipIn(missileCoordinate)) {
-			handleHit(missileCoordinate);
+			handleHit(gameState, missileCoordinate);
 		} else {
 			System.out.println(name + " didn't hit a ship.");
-			updateGameStateAfterMissileDidntHit(missileCoordinate);
+			updateGameStateAfterMissileDidntHit(gameState, missileCoordinate);
 			gameState.changePlayerInTurn();
 		}
 		UI.waitForPlayerToHitEnter();
@@ -43,22 +38,22 @@ public class Player implements Serializable {
 	// for HumanPlayer to override
 	protected void printDirectionsForTurn() {	}
 
-	protected void handleHit(Coordinate missileCoordinate) {
+	protected void handleHit(GameState gameState, Coordinate missileCoordinate) {
 		if (enemyShips.didTheShipSink(missileCoordinate)) {
-			handleSunkenShip(missileCoordinate);
+			handleSunkenShip(gameState, missileCoordinate);
 		} else {
 			System.out.println(name + " hit a ship! You get to shoot again!");
-			updateGameStateAfterAHit(missileCoordinate);
+			updateGameStateAfterAHit(gameState, missileCoordinate);
 		}
 	}
 
 	// for ComputerPlayer to override
-	protected void updateGameStateAfterAHit(Coordinate missileCoordinate) {	}
+	protected void updateGameStateAfterAHit(GameState gameState, Coordinate missileCoordinate) {	}
 
 	// for ComputerPlayer to override
-	protected void updateGameStateAfterMissileDidntHit(Coordinate missileCoordinate) {	}
+	protected void updateGameStateAfterMissileDidntHit(GameState gameState, Coordinate missileCoordinate) {	}
 
-	protected void handleSunkenShip(Coordinate missileCoordinate) {
+	protected void handleSunkenShip(GameState gameState, Coordinate missileCoordinate) {
 		enemyShips.markSunkenShip(missileCoordinate);
 		enemyShips.markTheSquaresArroundASunkenShip(missileCoordinate);
 		if (enemyShips.areAllTheShipsSunken()) {
@@ -66,15 +61,15 @@ public class Player implements Serializable {
 			System.exit(0);
 		} else {
 			System.out.println(name + " hit a ship and the ship sank! " + name + " get to shoot again!");
-			updateGameStateAfterSunkenShip();
+			updateGameStateAfterSunkenShip(gameState);
 		}
 	}
 
 	// for ComputerPlayer to override
-	protected void updateGameStateAfterSunkenShip() {
+	protected void updateGameStateAfterSunkenShip(GameState gameState) {
 	}
 
-	protected Coordinate shoot(UserInterface UI) {
+	protected Coordinate shoot(GameState gameState, UserInterface UI) {
 		throw new SubclassDidNotImplementException();
 	}
 	
@@ -92,13 +87,5 @@ public class Player implements Serializable {
 
 	public void setGameBoard(GameBoard gameBoard) {
 		this.enemyShips = gameBoard;
-	}
-
-	public GameState getGameState() {
-		return gameState;
-	}
-
-	public void setGameState(GameState gameState) {
-		this.gameState = gameState;
 	}
 }

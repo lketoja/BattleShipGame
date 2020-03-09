@@ -58,12 +58,14 @@ public class UserInterface {
 
 	}
 
-	public String askForDirection(Ship ship) {
+	public Direction askForDirection(Ship ship) {
 		System.out.println("Enter the direction for ship " + ship.name + ". Enter 'down' or 'right'");
 		String input = scanner.next();
-		if (input.equals("down") || input.equals("right")) {
-			return input;
-		} else {
+		if (input.equals("down")) {
+			return Direction.DOWN;
+		} else if (input.equals("right")){
+			return Direction.UP;
+		} else 	{
 			System.out.println("Error! Enter 'down' or 'right'.");
 			return askForDirection(ship);
 		}

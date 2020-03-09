@@ -13,10 +13,8 @@ public class Main {
 		GamePreparer gamePreparer = new GamePreparer(UI);
 				
 		GameInfo game = gamePreparer.prepareGame();
-		GameLogic logic = new GameLogic(game.player1, game.player2, UI);
+		GameLogic logic = new GameLogic(game, UI);
 		logic.startGame();
-		
-		
-		
+
 	}
 }
