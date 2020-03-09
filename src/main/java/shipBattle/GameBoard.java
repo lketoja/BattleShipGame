@@ -24,9 +24,9 @@ public class GameBoard implements Serializable {
 		ships = new ArrayList<Ship>();
 		ships.add(new Ship("Carrier", 5));
 		ships.add(new Ship("Battleship", 4));
-		ships.add(new Ship("Cruiser", 4));
-		ships.add(new Ship("Submarine", 4));
-		ships.add(new Ship("Destroyer", 4));
+//		ships.add(new Ship("Cruiser", 4));
+//		ships.add(new Ship("Submarine", 4));
+//		ships.add(new Ship("Destroyer", 4));
 	}
 
 	public Square[][] getSquares() {
@@ -71,10 +71,11 @@ public class GameBoard implements Serializable {
 	public Coordinate checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(Coordinate startPoint,
 			int x) {
 		int maxNumberOfSquaresToBeChecked = 10 * 10 / 2;
+		Coordinate coordinate = startPoint;
 		for (int i = 0; i < maxNumberOfSquaresToBeChecked; i++) {
-			Coordinate coordinate = CoordinateHelper.skipOverOneCoordinateAndGetTheNext(startPoint);
 			if (GameBoardHelper.areThereXUnhitSquaresSurrounding(this, coordinate, x))
 				return coordinate;
+			coordinate = CoordinateHelper.skipOverOneCoordinateAndGetTheNext(coordinate);
 		}
 		throw new CouldNotFindXUnhitSquaresException();
 	}
