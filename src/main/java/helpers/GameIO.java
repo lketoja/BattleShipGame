@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import logic.GameInfo;
+import components.GameInfo;
 
 public class GameIO {
 	

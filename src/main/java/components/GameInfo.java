@@ -1,8 +1,8 @@
-package logic;
+package components;
 
 import java.io.Serializable;
 
-import components.Player;
+import logic.Player;
 
 public class GameInfo implements Serializable {
 

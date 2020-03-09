@@ -1,14 +1,15 @@
-package components;
+package logic;
 
+import components.GameState;
 import helpers.Coordinate;
+import helpers.GameBoardHelper;
 import helpers.UserInterface;
-import logic.GameState;
 
 public class HumanPlayer extends Player {
 
 	@Override
 	protected void printGameboardBeforeTheShot() {
-		enemyShips.printGameBoard(enemyShips.buildTheViewOfBoard(true));
+		GameBoardHelper.renderGameBoard(false, enemyShips);
 	}
 
 	@Override

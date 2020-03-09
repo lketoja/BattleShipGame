@@ -1,4 +1,4 @@
-package logic;
+package components;
 
 import java.io.Serializable;
 import java.util.Random;

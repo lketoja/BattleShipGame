@@ -1,10 +1,10 @@
 package logic;
 
 import java.io.FileNotFoundException;
-import components.ComputerPlayer;
+
 import components.GameBoard;
-import components.HumanPlayer;
-import components.Player;
+import components.GameInfo;
+import components.GameState;
 import helpers.GameIO;
 import helpers.UserInterface;
 

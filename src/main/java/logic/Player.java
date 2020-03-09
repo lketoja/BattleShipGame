@@ -1,11 +1,13 @@
-package components;
+package logic;
 
 import java.io.Serializable;
 
+import components.GameBoard;
+import components.GameState;
 import exceptions.SubclassDidNotImplementException;
 import helpers.Coordinate;
+import helpers.GameBoardHelper;
 import helpers.UserInterface;
-import logic.GameState;
 
 public class Player implements Serializable {
 
@@ -32,7 +34,7 @@ public class Player implements Serializable {
 	protected void printGameboardBeforeTheShot() {	}
 
 	protected void printGameboardAfterTheShot() {
-		enemyShips.printGameBoard(enemyShips.buildTheViewOfBoard(true));
+		GameBoardHelper.renderGameBoard(true, enemyShips);
 	}
 
 	// for HumanPlayer to override

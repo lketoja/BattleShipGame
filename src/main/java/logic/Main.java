@@ -2,6 +2,7 @@ package logic;
 
 import java.util.Scanner;
 
+import components.GameInfo;
 import helpers.UserInterface;
 
 public class Main {

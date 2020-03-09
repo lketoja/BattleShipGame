@@ -1,6 +1,5 @@
 package logic;
 
-import components.Player;
 import components.Ship;
 import helpers.Coordinate;
 import helpers.Direction;

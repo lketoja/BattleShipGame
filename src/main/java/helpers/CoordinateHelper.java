@@ -7,7 +7,7 @@ import java.util.List;
 import exceptions.CantMoveInThatDirectionException;
 
 public class CoordinateHelper {
-	
+
 	public static Coordinate validateCoordinate(String input) {
 		if (input.length() < 2)
 			throw new IllegalArgumentException();
@@ -23,17 +23,18 @@ public class CoordinateHelper {
 	public static boolean between0And9(int number) {
 		return number >= 0 && number <= 9;
 	}
-	
+
 	public static List<Coordinate> generateCoordinates(Coordinate coordinate, Direction direction, int length) {
 		List<Coordinate> coordinates = new ArrayList<>();
 		Coordinate coordinateWeWantToAddToTheList = coordinate;
-		for(int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) {
 			coordinates.add(coordinateWeWantToAddToTheList);
-			coordinateWeWantToAddToTheList = CoordinateHelper.getTheNextCoordinate(coordinateWeWantToAddToTheList, direction);
+			coordinateWeWantToAddToTheList = CoordinateHelper.getTheNextCoordinate(coordinateWeWantToAddToTheList,
+					direction);
 		}
 		return coordinates;
 	}
-	
+
 	public static Coordinate getTheNextCoordinate(Coordinate startPoint, Direction direction) {
 		switch (direction) {
 		case UP:
@@ -55,6 +56,47 @@ public class CoordinateHelper {
 		default:
 			throw new IllegalArgumentException();
 		}
+	}
+
+	public static boolean isOutOfBoard(List<Coordinate> location) {
+		for (Coordinate coordinate : location) {
+			if (!between0And9(coordinate.x) || !between0And9(coordinate.y))
+				return false;
+		}
+		return true;
+	}
+
+	public static List<Coordinate> getTheCoordinatesSurrounding(List<Coordinate> shipsCoordinates) {
+		List<Coordinate> coordinates = new ArrayList<>();
+		for (Coordinate middlePoint : shipsCoordinates) {
+			coordinates.addAll(getTheCoordinatesSurroundingACoordinate(middlePoint));
+		}
+		return coordinates;
+	}
+
+	public static List<Coordinate> getTheCoordinatesSurroundingACoordinate(Coordinate middlePoint) {
+		List<Direction> directions = Arrays.asList(Direction.values());
+		List<Coordinate> coordinates = new ArrayList<>();
+		for (Direction direction : directions) {
+			try {
+				coordinates.add(CoordinateHelper.getTheNextCoordinate(middlePoint, direction));
+			} catch (CantMoveInThatDirectionException e) {
+			}
+		}
+		return coordinates;
+	}
+
+	public static List<Coordinate> getTheCoordinatesToBeChecked(Coordinate startPoint, int x) {
+		if(x==1) 
+			return Arrays.asList(startPoint);
+		if (x == 4)
+			return getTheCoordinatesSurroundingACoordinate(startPoint);
+		if (x == 12) {
+			List<Coordinate> coordinatesToBeChecked = getTheCoordinatesSurroundingACoordinate(startPoint);
+			coordinatesToBeChecked.addAll(getTheCoordinatesSurrounding(coordinatesToBeChecked));
+			return coordinatesToBeChecked;
+		}
+		return null;
 	}
 
 	public static Direction getOppositeDirection(Direction direction) {
@@ -83,6 +125,5 @@ public class CoordinateHelper {
 		}
 		return new Coordinate(newX, newY);
 	}
-	
 
 }

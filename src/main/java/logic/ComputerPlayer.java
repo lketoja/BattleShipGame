@@ -1,4 +1,4 @@
-package components;
+package logic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import components.GameState;
 import exceptions.CouldNotFindXUnhitSquaresException;
 import helpers.Coordinate;
 import helpers.CoordinateHelper;
 import helpers.Direction;
 import helpers.DirectionAndTheNumberOfUnhitSquares;
+import helpers.GameBoardHelper;
 import helpers.UserInterface;
-import logic.GameState;
 
 public class ComputerPlayer extends Player {
 
@@ -48,21 +49,10 @@ public class ComputerPlayer extends Player {
 	}
 
 	private Coordinate shootToTheBestDirectionFromTheFirstHit(GameState gameState) {
-		Direction bestDirection = whichDirectionHasTheBiggestNumberOfUnhitSquares(gameState.getFirstHit());
+		Direction bestDirection = GameBoardHelper
+				.whichDirectionHasTheBiggestNumberOfUnhitSquares(gameState.getFirstHit(), enemyShips);
 		gameState.setDirection(bestDirection);
 		return continueToShootAlongTheKnownDirection(gameState.getFirstHit(), bestDirection);
-	}
-
-	private Direction whichDirectionHasTheBiggestNumberOfUnhitSquares(Coordinate startPoint) {
-		List<DirectionAndTheNumberOfUnhitSquares> list = new ArrayList<>();
-		List<Direction> directions = Arrays.asList(Direction.values());
-		for (Direction direction : directions) {
-			int numberOfUnhitSquares = enemyShips.getTheNumberOfUnhitSquares(startPoint, direction);
-			list.add(new DirectionAndTheNumberOfUnhitSquares(direction, numberOfUnhitSquares));
-		}
-		list.sort(Comparator.comparing(DirectionAndTheNumberOfUnhitSquares::getTheNumberOfUnhitSquares));
-		Direction bestDirection = list.get(3).getDirection();
-		return bestDirection;
 	}
 
 	// Shooting is optimized by first looking a larger area that hasn't been shot at
@@ -90,7 +80,8 @@ public class ComputerPlayer extends Player {
 			// If we have checked before that there is no such square left, we move on.
 			if (!gameState.isLookForSquareThatIsSurroundedBy12UnhitSquares())
 				throw new CouldNotFindXUnhitSquaresException();
-			return enemyShips.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 12);
+			return GameBoardHelper.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 12,
+					enemyShips);
 		} catch (CouldNotFindXUnhitSquaresException e) {
 			gameState.setLookForSquareThatIsSurroundedBy12UnhitSquares(false);
 			return lookFor4UnhitSquares(gameState, startPoint);
@@ -102,10 +93,12 @@ public class ComputerPlayer extends Player {
 			// If we have checked before that there is no such square left, we move on.
 			if (gameState.isLookForSquareThatIsSurroundedBy4UnhitSquares())
 				throw new CouldNotFindXUnhitSquaresException();
-			return enemyShips.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 4);
+			return GameBoardHelper.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 4,
+					enemyShips);
 		} catch (CouldNotFindXUnhitSquaresException e) {
 			gameState.setLookForSquareThatIsSurroundedBy4UnhitSquares(false);
-			return enemyShips.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 1);
+			return GameBoardHelper.checkEveryOtherSquareFromStartPointUntilXUnhitSquaresAreFound(startPoint, 1,
+					enemyShips);
 		}
 	}
 

@@ -4,7 +4,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import components.Player;
+import components.GameInfo;
+import components.GameState;
 import exceptions.PlayerWantsToSaveTheGameException;
 import helpers.GameIO;
 import helpers.UserInterface;
